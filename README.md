@@ -11,7 +11,7 @@ The iOS Reverse Engineering Toolkit is a toolkit designed to automate many of th
  - creating, editing, installing theos tweaks
 
 Installation:
-  You can download the raw source files and build the debian package yourself using dbpk -b <fileName> or you can install the iRET.deb package onto any jailbroken iPhone using dpkg -i on the command line or by using iFile, which is available from Cydia. After it is installed, respiring the device and you should see a new "iRET" icon on the device.
+  You can install the iRET.deb package onto any jailbroken iPhone using dpkg -i on the command line or by using iFile, which is available from Cydia. After it is installed, respiring the device and you should see a new "iRET" icon on the device.
 
 Usage:
   Must be connected to a wireless network. Launch the application, click the "Start" button. It will then show the ip address and port number you should navigate to on your computer (computer must be connected to same wireless network as device). On first run, it will take a bit of time for the iRET tool to identify all of the required tools.
