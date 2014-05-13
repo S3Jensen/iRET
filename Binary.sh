@@ -170,9 +170,9 @@ echo ' <html>
         									'${fatHeaders}'
         								</span>
         							</td>
-        							<td>&nbsp;</td>
+        							<!--<td>&nbsp;</td>
         							<td valign="top">On 64-bit devices you can remove an architecture slice from the binary below.<br>
-        							Select the arch slice to remove:
+        							Select the arch slice to remove:-->
    								</tr>
    							</table>
    						<!-- End Fath Headers --> <br><br>'
