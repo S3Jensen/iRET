@@ -42,12 +42,13 @@ Credits:
 
 Special thanks to the following people
 
-Bucky Spires (@gigabuck)
-Richard Zuleg
-Dan DeCloss (@wh33lhouse)
-Dustin Howett (theos @DHowett)
-StefanEsser (dumpdecrypted @iOn1c)
-Patrick Toomey (keychain_dumper @patricktoomey)
-All those members on irc.saurik.com #theos channel for their assistance.
+ - Bucky Spires (@gigabuck)
+ - Richard Zuleg
+ - Dan DeCloss (@wh33lhouse)
+ - Dustin Howett (theos @DHowett)
+ - StefanEsser (dumpdecrypted @iOn1c)
+ - Patrick Toomey (keychain_dumper @patricktoomey)
+
+All the members on irc.saurik.com #theos channel for their assistance.
 
 For questions feel free to contact me on Twitter at @S3Jensen.
