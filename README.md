@@ -50,7 +50,4 @@ StefanEsser (dumpdecrypted @iOn1c)
 Patrick Toomey (keychain_dumper @patricktoomey)
 All those members on irc.saurik.com #theos channel for their assistance.
 
-For questions feel free to contact me at sjensen@veracode.com.
-Please include subject line “iRET - Feedback”.
- 
-
+For questions feel free to contact me on Twitter at @S3Jensen.
