@@ -46,7 +46,7 @@ Special thanks to the following people
  - Richard Zuleg
  - Dan DeCloss (@wh33lhouse)
  - Dustin Howett (theos @DHowett)
- - StefanEsser (dumpdecrypted @iOn1c)
+ - StefanEsser (dumpdecrypted @i0n1c)
  - Patrick Toomey (keychain_dumper @patricktoomey)
 
 All the members on irc.saurik.com #theos channel for their assistance.
