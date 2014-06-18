@@ -27,7 +27,7 @@ Dependencies:
  - Bourne-Again Shell
  - iOS Toolchain (coolstar version)
  - Darwin CC Tools (coolstar version)
- - An iOS SDK (presumably iOS 6.1 or 7.x) installed to /theos/sdks
+ - An iOS SDK (presumably iOS 6.1 or 7.x) installed to $THEOS/sdks
 
 
 Known Issues:
