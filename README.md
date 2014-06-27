@@ -61,4 +61,4 @@ Landing Page:
 
 Functionality Tabs:
 
-https://cloud.githubusercontent.com/assets/1737324/3407665/e85dd670-fdb2-11e3-8359-4bb1f120d577.png
+![ScreenShot](https://cloud.githubusercontent.com/assets/1737324/3407665/e85dd670-fdb2-11e3-8359-4bb1f120d577.png)
