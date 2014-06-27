@@ -57,7 +57,7 @@ Screenshots:
 
 Landing Page:
 
-https://cloud.githubusercontent.com/assets/1737324/3407661/cb2a3288-fdb2-11e3-8279-ea50fa634ac8.png
+![ScreenShot](https://cloud.githubusercontent.com/assets/1737324/3407661/cb2a3288-fdb2-11e3-8279-ea50fa634ac8.png)
 
 Functionality Tabs:
 
