@@ -51,7 +51,7 @@ Special thanks to the following people
 
 All the members on irc.saurik.com #theos channel for their assistance.
 
-For questions feel free to contact me on Twitter at @S3Jensen.
+For questions feel free to contact me on Twitter at @S3Jensen or at jensensteve1207@gmail.com.
 
 Screenshots:
 
