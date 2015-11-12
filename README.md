@@ -1,20 +1,20 @@
 iRET
 ====
-The iOS Reverse Engineering Toolkit is a toolkit designed to automate many of the common tasks associated with iOS penetration testing. It automates a many common tasks including:
+The iOS Reverse Engineering Toolkit (iRET) is a set of tools designed to automate many of the common tasks associated with iOS penetration testing. It automates tasks including:
 
- - binary analysis using otool
- - keychain analysis using keychain_dumper
- - reading database content using sqlite
- - reading log and plist files
- - binary decryption using dumpdecrypted
- - dumping binary headers using class_dump_z
+ - binary analysis using `otool`
+ - keychain analysis using `keychain_dumper`
+ - reading database content using `sqlite`
+ - reading log and `plist` files
+ - binary decryption using `dumpdecrypted`
+ - dumping binary headers using `class_dump_z`
  - creating, editing, installing theos tweaks
 
 Installation:
-  You can download the files and build the debian package yourself or you can simply install the iRET.deb package onto any jailbroken device using dpkg -i on the command line or by using iFile, which is available from Cydia. After it is installed, respring the device and you should see a new "iRET" icon on the device.
+  You can download the files and build the Debian package yourself or you can simply install the iRET.deb package onto any jailbroken device using `dpkg -i` on the command line or by using `iFile`, which is available from Cydia. After it is installed, respring the device and you should see a new "iRET" icon on the device.
 
 Usage:
-  Must be connected to a wireless network. Launch the application, click the "Start" button. It will then show the ip address and port number you should navigate to on your computer (computer must be connected to same wireless network as device). On first run, it will take a bit of time for the iRET tool to identify all of the required tools.
+  Must be connected to a wireless network. Launch the application, click the "Start" button. It will then show the IP address and port number you should navigate to on your computer (computer must be connected to same wireless network as device). On first run, it will take a bit of time for the iRET tool to identify all of the required tools.
 
 
 Dependencies:
@@ -35,12 +35,12 @@ Known Issues:
 
 
 Troubleshooting:
-  To troubleshoot any issues. You can manually start the listener. First, ssh into the device, navigate to the /Applications/iRE.app directory and execute the "python iRE_Server.py" command.
+  To troubleshoot any issues. You can manually start the listener. First, SSH into the device, navigate to the `/Applications/iRE.app` directory and execute the `python iRE_Server.py` command.
 
 
 Credits:
 
-Special thanks to the following people
+Special thanks to the following people:
 
  - Bucky Spires (@gigabuck)
  - Richard Zuleg
