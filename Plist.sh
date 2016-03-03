@@ -152,8 +152,16 @@ echo ' <html>
 		<!-- Application PList Files -->
       <h2>Below are the plist files that were found for the selected application.</h2><br>'
 
+iOSVersionLoc=$(grep -n 'ProductVersion' /System/Library/CoreServices/SystemVersion.plist | sed 's/:.*//')
+((iOSVersionLoc+=1))
+iOSVersion=$(cat /System/Library/CoreServices/SystemVersion.plist | sed -n "${iOSVersionLoc}p" | sed 's/^.*<string>//' | sed 's/<\/string>.*//')
+iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
 
-PLists=$(find /var/mobile/Applications/$AppID -name '*.plist' -type f)
+if [[ $iOSShortVersion > 7 ]] ;then
+  PLists=$(find /private/var/mobile/Containers/Bundle/Application/$AppID -name '*.plist' -type f)
+elif
+  PLists=$(find /var/mobile/Applications/$AppID -name '*.plist' -type f)
+fi
 
 if [ -n "$PLists" ]
 then

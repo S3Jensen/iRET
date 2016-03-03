@@ -184,8 +184,16 @@ echo ' <html>
 		<!-- Application Logs -->
       <h2>Below are the log and text files that were found for the selected application.</h2><br>'
 
+iOSVersionLoc=$(grep -n 'ProductVersion' /System/Library/CoreServices/SystemVersion.plist | sed 's/:.*//')
+((iOSVersionLoc+=1))
+iOSVersion=$(cat /System/Library/CoreServices/SystemVersion.plist | sed -n "${iOSVersionLoc}p" | sed 's/^.*<string>//' | sed 's/<\/string>.*//')
+iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
 
-logs=$(find /var/mobile/Applications/$AppID -name '*.log' -o -name '*.txt' -type f)
+if [[ $iOSShortVersion > 7 ]] ;then
+  logs=$(find /private/var/mobile/Containers/Bundle/Application/$AppID -name '*.log' -o -name '*.txt' -type f)
+elif
+  logs=$(find /var/mobile/Applications/$AppID -name '*.log' -o -name '*.txt' -type f)
+fi
 
 if [ -n "$logs" ]
 then

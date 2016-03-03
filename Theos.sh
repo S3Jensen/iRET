@@ -183,7 +183,17 @@ echo ' <html>
 		if [ "$Action" == "New" ]; then
 
 			#Get BundleID for selected Application
-			InfoFile=$(find /var/mobile/Applications/"$AppID"/*.app -maxdepth 1 -name Info.plist -type f)
+      iOSVersionLoc=$(grep -n 'ProductVersion' /System/Library/CoreServices/SystemVersion.plist | sed 's/:.*//')
+      ((iOSVersionLoc+=1))
+      iOSVersion=$(cat /System/Library/CoreServices/SystemVersion.plist | sed -n "${iOSVersionLoc}p" | sed 's/^.*<string>//' | sed 's/<\/string>.*//')
+      iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
+
+      if [[ $iOSShortVersion > 7 ]] ;then
+        InfoFile=$(/private/var/mobile/Containers/Bundle/Application/ "$AppID" -name Info.plist -type f)
+      elif
+        InfoFile=$(find /var/mobile/Applications/"$AppID" -name Info.plist -type f)
+      fi
+
 			BundleID=$(plutil -key CFBundleIdentifier "$InfoFile")
 
 			echo '<!-- Create Theos Tweak -->

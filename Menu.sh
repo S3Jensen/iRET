@@ -200,13 +200,26 @@ else
         echo "/Applications/iRE.app/toolPaths.txt File Does Not Exist"
 fi
 
+iOSVersionLoc=$(grep -n 'ProductVersion' /System/Library/CoreServices/SystemVersion.plist | sed 's/:.*//')
+((iOSVersionLoc+=1))
+iOSVersion=$(cat /System/Library/CoreServices/SystemVersion.plist | sed -n "${iOSVersionLoc}p" | sed 's/^.*<string>//' | sed 's/<\/string>.*//')
+iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
 
-guids=$(ls /var/mobile/Applications/*/*.app/Info.plist |sort | cut -d"/" -f5)
+if [[ $iOSShortVersion > 7 ]] ;then
+  guids=$(ls /private/var/mobile/Containers/Bundle/Application/*/*.app/Info.plist |sort | cut -d"/" -f8)
+elif
+  guids=$(ls /var/mobile/Applications/*/*.app/Info.plist |sort | cut -d"/" -f5)
+fi
+
 dropDownList="<option value=>Select Application</option>"
 
 for a in ${guids}
  do
-    name=$( ls /var/mobile/Applications/$a/*.app/Info.plist | cut -d"/" -f6 | cut -d. -f1 )
+    if [[ $iOSShortVersion > 7 ]] ;then
+      name=$( ls /private/var/mobile/Containers/Bundle/Application/$a/*.app/Info.plist | cut -d"/" -f9 | cut -d. -f1 )
+    elif
+      name=$( ls /var/mobile/Applications/$a/*.app/Info.plist | cut -d"/" -f6 | cut -d. -f1 )
+    fi
     dropDownList+="<option value="$a">"$name"</option>"
 done
 

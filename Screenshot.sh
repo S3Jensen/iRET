@@ -152,8 +152,18 @@ echo ' <html>
 		<div>
       <br>'
 
-      	image=$(find /var/mobile/Applications/"$AppID"/Library/Caches -name '*.png' -type f)
-      	display=$(base64 "$image")
+      iOSVersionLoc=$(grep -n 'ProductVersion' /System/Library/CoreServices/SystemVersion.plist | sed 's/:.*//')
+      ((iOSVersionLoc+=1))
+      iOSVersion=$(cat /System/Library/CoreServices/SystemVersion.plist | sed -n "${iOSVersionLoc}p" | sed 's/^.*<string>//' | sed 's/<\/string>.*//')
+      iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
+
+      if [[ $iOSShortVersion > 7 ]] ;then
+        image=$(find /private/var/mobile/Containers/Bundle/Application/"$AppID"/Library/Caches -name '*.png' -type f)
+      elif
+        image=$(find /var/mobile/Applications/"$AppID"/Library/Caches -name '*.png' -type f)
+      fi
+      	
+      display=$(base64 "$image")
 
 		if [ -n "$image" ]; then
 			echo "<img src='data:image/gif;base64,"$display"' width='25%' height='25%'>"

@@ -2,7 +2,16 @@
 
 AppID=$1
 
-binFile=$(find /var/mobile/Applications/"$AppID"/*.app -type f -exec file {} \; | grep Mach-O | cut -d":" -f1)
+iOSVersionLoc=$(grep -n 'ProductVersion' /System/Library/CoreServices/SystemVersion.plist | sed 's/:.*//')
+((iOSVersionLoc+=1))
+iOSVersion=$(cat /System/Library/CoreServices/SystemVersion.plist | sed -n "${iOSVersionLoc}p" | sed 's/^.*<string>//' | sed 's/<\/string>.*//')
+iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
+
+if [[ $iOSShortVersion > 7 ]] ;then
+  binFile=$(find /private/var/mobile/Containers/Bundle/Application/"$AppID"/*.app -type f -exec file {} \; | grep Mach-O | cut -d":" -f1)
+elif
+  binFile=$(find /var/mobile/Applications/"$AppID"/*.app -type f -exec file {} \; | grep Mach-O | cut -d":" -f1)
+fi
 
 echo ' <html>
   <head>

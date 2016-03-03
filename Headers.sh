@@ -6,7 +6,17 @@ HeaderName=$2
 
 if [ ! -d "$AppID"_headers ]; then
 	#logic to check if the binfile is encrypted
-	binFile=$(find /var/mobile/Applications/"$AppID"/*.app -type f -exec file {} \; | grep Mach-O | cut -d":" -f1)
+  iOSVersionLoc=$(grep -n 'ProductVersion' /System/Library/CoreServices/SystemVersion.plist | sed 's/:.*//')
+  ((iOSVersionLoc+=1))
+  iOSVersion=$(cat /System/Library/CoreServices/SystemVersion.plist | sed -n "${iOSVersionLoc}p" | sed 's/^.*<string>//' | sed 's/<\/string>.*//')
+  iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
+
+  if [[ $iOSShortVersion > 7 ]] ;then
+    binFile=$(find /private/var/mobile/Containers/Bundle/Application/"$AppID"/*.app -type f -exec file {} \; | grep Mach-O | cut -d":" -f1)
+  elif
+    binFile=$(find /var/mobile/Applications/"$AppID"/*.app -type f -exec file {} \; | grep Mach-O | cut -d":" -f1)
+  fi
+	
 	mkdir /Applications/iRE.app/"$AppID"_headers
 	isEncrypted=$(otool -lv "$binFile" | grep cryptid | sed 's/^ *//g' | tr ' ' ':' | cut -d":" -f4)
 	classDumpPath=$(grep -F classDumpZ /Applications/iRE.app/toolPaths.txt | cut -d":" -f2)
