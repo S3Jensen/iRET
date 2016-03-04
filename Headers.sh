@@ -21,7 +21,7 @@ if [ ! -d "$AppID"_headers ]; then
 	isEncrypted=$(otool -lv "$binFile" | grep cryptid | sed 's/^ *//g' | tr ' ' ':' | cut -d":" -f4)
 	classDumpPath=$(grep -F classDumpZ /Applications/iRE.app/toolPaths.txt | cut -d":" -f2)
 
-	if [ $isEncrypted -eq 1 ]; then
+	if [ $isEncrypted == 1 ]; then
 		#binary is encrypted
 		dumpPath=$(grep -F dumpdecrypted /Applications/iRE.app/toolPaths.txt | cut -d":" -f2)
 		newBin=$(echo "$binFile" | sed 's/ /\\ /g')
