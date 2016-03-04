@@ -159,7 +159,7 @@ echo ' <html>
 
       if [[ $iOSShortVersion > 7 ]] ;then
         image=$(find /private/var/mobile/Containers/Bundle/Application/"$AppID"/Library/Caches -name '*.png' -type f)
-      elif
+      else
         image=$(find /var/mobile/Applications/"$AppID"/Library/Caches -name '*.png' -type f)
       fi
       	

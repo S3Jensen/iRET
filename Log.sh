@@ -191,7 +191,7 @@ iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
 
 if [[ $iOSShortVersion > 7 ]] ;then
   logs=$(find /private/var/mobile/Containers/Bundle/Application/$AppID -name '*.log' -o -name '*.txt' -type f)
-elif
+else
   logs=$(find /var/mobile/Applications/$AppID -name '*.log' -o -name '*.txt' -type f)
 fi
 

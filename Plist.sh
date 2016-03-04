@@ -159,7 +159,7 @@ iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
 
 if [[ $iOSShortVersion > 7 ]] ;then
   PLists=$(find /private/var/mobile/Containers/Bundle/Application/$AppID -name '*.plist' -type f)
-elif
+else
   PLists=$(find /var/mobile/Applications/$AppID -name '*.plist' -type f)
 fi
 

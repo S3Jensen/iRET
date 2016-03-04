@@ -207,7 +207,7 @@ iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
 
 if [[ $iOSShortVersion > 7 ]] ;then
   guids=$(ls /private/var/mobile/Containers/Bundle/Application/*/*.app/Info.plist |sort | cut -d"/" -f8)
-elif
+else
   guids=$(ls /var/mobile/Applications/*/*.app/Info.plist |sort | cut -d"/" -f5)
 fi
 
@@ -217,12 +217,13 @@ for a in ${guids}
  do
     if [[ $iOSShortVersion > 7 ]] ;then
       name=$( ls /private/var/mobile/Containers/Bundle/Application/$a/*.app/Info.plist | cut -d"/" -f9 | cut -d. -f1 )
-    elif
+    else
       name=$( ls /var/mobile/Applications/$a/*.app/Info.plist | cut -d"/" -f6 | cut -d. -f1 )
     fi
     dropDownList+="<option value="$a">"$name"</option>"
 done
 
+runningon=$(uname -a)
 echo '<html>
 <head>
 <meta charset="UTF-8">
@@ -242,7 +243,7 @@ echo '<html>
     <td align="center" valign="center">
     	<table style="background-color:white;border:1px solid black;" height="90%" width="90%">
     		<tr>
-    			<td align="center" valign="top" colspan="2" height="20%"><font face="arial black" color="black" size="6">Welcome to iRET<br>The  iOS Reverse Engineering Toolkit</font></td>
+    			<td align="center" valign="top" colspan="2" height="20%"><font face="arial black" color="black" size="6">Welcome to iRET<br>The  iOS Reverse Engineering Toolkit</font><br><font face="arial black" color="red" size="2">Running On iOS '${iOSVersion}' with detail: <br>'${runningon}'</font></td>
     		</tr>
     		<tr>
     			<td align="center" valign="top" width="50%">

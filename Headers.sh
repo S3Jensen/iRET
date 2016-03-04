@@ -13,7 +13,7 @@ if [ ! -d "$AppID"_headers ]; then
 
   if [[ $iOSShortVersion > 7 ]] ;then
     binFile=$(find /private/var/mobile/Containers/Bundle/Application/"$AppID"/*.app -type f -exec file {} \; | grep Mach-O | cut -d":" -f1)
-  elif
+  else
     binFile=$(find /var/mobile/Applications/"$AppID"/*.app -type f -exec file {} \; | grep Mach-O | cut -d":" -f1)
   fi
 	

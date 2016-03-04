@@ -190,7 +190,7 @@ echo ' <html>
 
       if [[ $iOSShortVersion > 7 ]] ;then
         InfoFile=$(/private/var/mobile/Containers/Bundle/Application/ "$AppID" -name Info.plist -type f)
-      elif
+      else
         InfoFile=$(find /var/mobile/Applications/"$AppID" -name Info.plist -type f)
       fi
 

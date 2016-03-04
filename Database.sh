@@ -157,7 +157,7 @@ iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
 
 if [[ $iOSShortVersion > 7 ]] ;then
   database=$(find /private/var/mobile/Containers/Bundle/Application/$AppID -name '*.db' -o -name '*.sqlite' -o -name '*.sqlite3' -type f)
-elif
+else
   databases=$(find /var/mobile/Applications/$AppID -name '*.db' -o -name '*.sqlite' -o -name '*.sqlite3' -type f)
 fi
 
