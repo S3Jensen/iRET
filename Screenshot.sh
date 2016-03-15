@@ -158,7 +158,10 @@ echo ' <html>
       iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
 
       if [[ $iOSShortVersion > 7 ]] ;then
-        image=$(find /private/var/mobile/Containers/Bundle/Application/"$AppID"/Library/Caches -name '*.png' -type f)
+        applicationBundelIDLoc=$(grep -n 'CFBundleIdentifier' /private/var/mobile/Containers/Bundle/Application/$AppID/*/Info.plist | sed 's/:.*//')
+        ((applicationBundelIDLoc+=1))
+        applicationBundelID=$(cat /private/var/mobile/Containers/Bundle/Application/$AppID/*/Info.plist | sed -n "${applicationBundelIDLoc}p" | sed 's/^.*<string>//' | sed 's/<\/string>.*//')
+        image=$(find /private/var/mobile/Containers/Data/Application/*/Library/Caches/Snapshots/$applicationBundelID/ -maxdepth 1 -name '*.png' -type f)
       else
         image=$(find /var/mobile/Applications/"$AppID"/Library/Caches -name '*.png' -type f)
       fi
