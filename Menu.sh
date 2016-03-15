@@ -1,5 +1,5 @@
 #!/bin/sh
-
+#set -x
 function checkInstall()
 {
   local path
@@ -48,6 +48,15 @@ function checkInstall()
 
 
 #File that stores paths of tools
+echo "otool:/usr/bin/otool
+sqlite3:/usr/bin/sqlite3
+file:/usr/bin/file
+plutil:/usr/bin/plutil
+theos:/private/var/theos
+dumpdecrypted:/Library/dumpdecrypted.dylib /masbog/dumpdecrypted/dumpdecrypted.dylib
+keychainDumper:/masbog/Keychain-Dumper/keychain_dumper /private/var/db/stash/_.C0mBXy/Applications/iNalyzer5.app/keychain_dumper /usr/bin/keychain_dumper
+classDumpZ:/usr/bin/class-dump-z
+perl:/usr/local/bin/perl" > /Applications/iRE.app/toolPaths.txt
 file="/Applications/iRE.app/toolPaths.txt"
 
 #check if "toolPaths.txt" file exists
@@ -199,7 +208,7 @@ then
                                 		fi
                                 		;;
                         perl)
-                                		if [ "$f2" != "" || -n "$f2"]
+                                		if [ "$f2" != "" ]
                                 		then
                                 				perlInstalled="<font color="green">Installed</font>"
                                 		else
