@@ -204,6 +204,7 @@ iOSVersionLoc=$(grep -n 'ProductVersion' /System/Library/CoreServices/SystemVers
 ((iOSVersionLoc+=1))
 iOSVersion=$(cat /System/Library/CoreServices/SystemVersion.plist | sed -n "${iOSVersionLoc}p" | sed 's/^.*<string>//' | sed 's/<\/string>.*//')
 iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
+runningon=$(uname -a)
 
 if [[ $iOSShortVersion > 7 ]] ;then
   guids=$(ls /private/var/mobile/Containers/Bundle/Application/*/*.app/Info.plist |sort | cut -d"/" -f8)
@@ -223,7 +224,6 @@ for a in ${guids}
     dropDownList+="<option value="$a">"$name"</option>"
 done
 
-runningon=$(uname -a)
 echo '<html>
 <head>
 <meta charset="UTF-8">
@@ -243,7 +243,7 @@ echo '<html>
     <td align="center" valign="center">
     	<table style="background-color:white;border:1px solid black;" height="90%" width="90%">
     		<tr>
-    			<td align="center" valign="top" colspan="2" height="20%"><font face="arial black" color="black" size="6">Welcome to iRET<br>The  iOS Reverse Engineering Toolkit</font><br><font face="arial black" color="red" size="2">Running On iOS '${iOSVersion}' with detail: <br>'${runningon}'</font></td>
+    			<td align="center" valign="top" colspan="2" height="20%"><font face="arial black" color="black" size="6">Welcome to iRET<font face="arial black" color="red" size="2"> Source from <a href="https://github.com/masbog/iRET">https://github.com/masbog/iRET</a></font><br>The  iOS Reverse Engineering Toolkit</font><br><font face="arial black" color="red" size="2">Running On iOS '${iOSVersion}' : <br>'${runningon}'</font></td>
     		</tr>
     		<tr>
     			<td align="center" valign="top" width="50%">

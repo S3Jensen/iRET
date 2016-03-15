@@ -12,6 +12,12 @@ IPasswords=$($keychainPath -n | tr '\n' '!' | sed 's/!/<br>/g')
 Identities=$($keychainPath -i | tr '\n' '!' | sed 's/!/<br>/g')
 Certs=$($keychainPath -c | tr '\n' '!' | sed 's/!/<br>/g')
 
+iOSVersionLoc=$(grep -n 'ProductVersion' /System/Library/CoreServices/SystemVersion.plist | sed 's/:.*//')
+((iOSVersionLoc+=1))
+iOSVersion=$(cat /System/Library/CoreServices/SystemVersion.plist | sed -n "${iOSVersionLoc}p" | sed 's/^.*<string>//' | sed 's/<\/string>.*//')
+iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
+runningon=$(uname -a)
+
 echo ' <html>
   <head>
     <title>iRET - iOS Reverse Engineering Toolkit</title>
@@ -134,7 +140,7 @@ echo ' <html>
     <td align="center" valign="center">
     	<table style="background-color:white;border:1px solid black;" height="90%" width="90%">
     		<tr>
-    			<td align="center" valign="top" height="1%"><font face="arial black" color="black" size="6">Welcome to iRET<br>The  iOS Reverse Engineering Toolkit</font></td>
+    			<td align="center" valign="top" colspan="2" height="20%"><font face="arial black" color="black" size="6">Welcome to iRET<font face="arial black" color="red" size="2"> Source from <a href="https://github.com/masbog/iRET">https://github.com/masbog/iRET</a></font><br>The  iOS Reverse Engineering Toolkit</font><br><font face="arial black" color="red" size="2">Running On iOS '${iOSVersion}' : <br>'${runningon}'</font></td>
     		</tr>
     		<tr>
 			<td valign="top">
