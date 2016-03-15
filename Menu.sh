@@ -32,11 +32,15 @@ function checkInstall()
         keychainDumper)
                 path=$(find / -name keychain_dumper -type f)
 		echo "$path"
-         	;;
-		classDumpZ)
-				path=$(find / -name class-dump-z -type f)
-		echo "$path"
-			;;
+              	  ;;
+        classDumpZ)
+                path=$(find / -name class-dump-z -type f)
+    echo "$path"
+                ;;
+        perl)
+                path=$(which perl)
+    echo "$path"
+    ;;
         *) break
   esac
 
@@ -115,6 +119,9 @@ else
 	classDumpPath=$(checkInstall classDumpZ)
 	strTools+="classDumpZ:$classDumpPath"
 
+  #PERL
+  perlPath=$(checkInstall perl)
+  strTools+="perl:$perlPath"
 	echo -e $strTools > /Applications/iRE.app/toolPaths.txt
 fi
 
@@ -184,13 +191,21 @@ then
                                 fi
                                 ;;
                         classDumpZ)
-                        		if [ "$f2" != "" ]
-                        		then
-                        				classDumpZInstalled="<font color="green">Installed</font>"
-                        		else
-                        				classDumpZInstalled="<font color="red">Not Installed</font>"
-                        		fi
-                        		;;
+                                		if [ "$f2" != "" ]
+                                		then
+                                				classDumpZInstalled="<font color="green">Installed</font>"
+                                		else
+                                				classDumpZInstalled="<font color="red">Not Installed</font>"
+                                		fi
+                                		;;
+                        perl)
+                                		if [ "$f2" != "" || -n "$f2"]
+                                		then
+                                				perlInstalled="<font color="green">Installed</font>"
+                                		else
+                                				perlInstalled="<font color="red">Not Installed</font>"
+                                		fi
+                                		;;
                         *) break
                     esac
 
@@ -259,10 +274,11 @@ echo '<html>
 												<span style="padding:150px">- dumpDecrypted ('${dumpInstalled}')</span><br>
 												<span style="padding:150px">- Sqlite ('${sqliteInstalled}')</span><br>
 												<span style="padding:150px">- Theos ('${theosInstalled}')</span><br>
-                                                <span style="padding:150px">- Keychain_dumper ('${keychainInstalled}')</span><br>
-											    <span style="padding:150px">- file ('${fileInstalled}')</span><br>
-                                                <span style="padding:150px">- plutil ('${plutilInstalled}')</span><br>
-                                                <span style="padding:150px">- class-dump-z ('${classDumpZInstalled}')</span>
+                      <span style="padding:150px">- Keychain_dumper ('${keychainInstalled}')</span><br>
+											  <span style="padding:150px">- file ('${fileInstalled}')</span><br>
+                      <span style="padding:150px">- plutil ('${plutilInstalled}')</span><br>
+                      <span style="padding:150px">- class-dump-z ('${classDumpZInstalled}')<br></span>
+                      <span style="padding:150px">- perl ('${perlInstalled}')</span>
 												<br><br>
 												<span style="padding:100px">Note: All tools listed above must be installed.</span></font>
 										</td>
