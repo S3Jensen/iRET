@@ -4,14 +4,30 @@ AppID=$1
 SearchText=$3
 HeaderName=$2
 
+iOSVersionLoc=$(grep -n 'ProductVersion' /System/Library/CoreServices/SystemVersion.plist | sed 's/:.*//')
+((iOSVersionLoc+=1))
+iOSVersion=$(cat /System/Library/CoreServices/SystemVersion.plist | sed -n "${iOSVersionLoc}p" | sed 's/^.*<string>//' | sed 's/<\/string>.*//')
+iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
+runningon=$(uname -a)
+
 if [ ! -d "$AppID"_headers ]; then
 	#logic to check if the binfile is encrypted
-	binFile=$(find /var/mobile/Applications/"$AppID"/*.app -type f -exec file {} \; | grep Mach-O | cut -d":" -f1)
+  iOSVersionLoc=$(grep -n 'ProductVersion' /System/Library/CoreServices/SystemVersion.plist | sed 's/:.*//')
+  ((iOSVersionLoc+=1))
+  iOSVersion=$(cat /System/Library/CoreServices/SystemVersion.plist | sed -n "${iOSVersionLoc}p" | sed 's/^.*<string>//' | sed 's/<\/string>.*//')
+  iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
+
+  if [[ $iOSShortVersion > 7 ]] ;then
+    binFile=$(find /private/var/mobile/Containers/Bundle/Application/"$AppID"/*.app -type f -exec file {} \; | grep Mach-O | cut -d":" -f1)
+  else
+    binFile=$(find /var/mobile/Applications/"$AppID"/*.app -type f -exec file {} \; | grep Mach-O | cut -d":" -f1)
+  fi
+	
 	mkdir /Applications/iRE.app/"$AppID"_headers
 	isEncrypted=$(otool -lv "$binFile" | grep cryptid | sed 's/^ *//g' | tr ' ' ':' | cut -d":" -f4)
 	classDumpPath=$(grep -F classDumpZ /Applications/iRE.app/toolPaths.txt | cut -d":" -f2)
 
-	if [ $isEncrypted -eq 1 ]; then
+	if [ $isEncrypted == 1 ]; then
 		#binary is encrypted
 		dumpPath=$(grep -F dumpdecrypted /Applications/iRE.app/toolPaths.txt | cut -d":" -f2)
 		newBin=$(echo "$binFile" | sed 's/ /\\ /g')
@@ -156,7 +172,7 @@ echo ' <html>
     <td align="center" valign="center">
     	<table style="background-color:white;border:1px solid black;" height="90%" width="90%">
     		<tr>
-    			<td align="center" valign="top" height="1%"><font face="arial black" color="black" size="6">Welcome to iRET<br>The  iOS Reverse Engineering Toolkit</font></td>
+    			<td align="center" valign="top" colspan="2" height="20%"><font face="arial black" color="black" size="6">Welcome to iRET<font face="arial black" color="red" size="2"> Source from <a href="https://github.com/masbog/iRET">https://github.com/masbog/iRET</a></font><br>The  iOS Reverse Engineering Toolkit</font><br><font face="arial black" color="red" size="2">Running On iOS '${iOSVersion}' : <br>'${runningon}'</font></td>
     		</tr>
     		<tr>
 			<td valign="top">

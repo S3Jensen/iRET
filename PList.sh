@@ -1,7 +1,23 @@
 #!/bin/sh
-
+  
 AppID=$1
 PList=$2
+
+echo "AppID : "$AppID
+echo "PList : "$PList
+
+iOSVersionLoc=$(grep -n 'ProductVersion' /System/Library/CoreServices/SystemVersion.plist | sed 's/:.*//')
+((iOSVersionLoc+=1))
+iOSVersion=$(cat /System/Library/CoreServices/SystemVersion.plist | sed -n "${iOSVersionLoc}p" | sed 's/^.*<string>//' | sed 's/<\/string>.*//')
+iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
+runningon=$(uname -a)
+
+PLists=''
+if [[ $iOSShortVersion > 7 ]] ;then
+  PLists=$(find /private/var/mobile/Containers/Bundle/Application/$AppID -name '*.plist' -type f)
+else
+  PLists=$(find /var/mobile/Applications/$AppID -name '*.plist' -type f)
+fi
 
 echo ' <html>
   <head>
@@ -129,7 +145,7 @@ echo ' <html>
     <td align="center" valign="center">
     	<table style="background-color:white;border:1px solid black;" height="90%" width="90%">
     		<tr>
-    			<td align="center" valign="top" height="1%"><font face="arial black" color="black" size="6">Welcome to iRET<br>The  iOS Reverse Engineering Toolkit</font></td>
+    			<td align="center" valign="top" colspan="2" height="20%"><font face="arial black" color="black" size="6">Welcome to iRET<font face="arial black" color="red" size="2"> Source from <a href="https://github.com/masbog/iRET">https://github.com/masbog/iRET</a></font><br>The  iOS Reverse Engineering Toolkit</font><br><font face="arial black" color="red" size="2">Running On iOS '${iOSVersion}' : <br>'${runningon}'</font></td>
     		</tr>
     		<tr>
 			<td valign="top">
@@ -151,9 +167,6 @@ echo ' <html>
 
 		<!-- Application PList Files -->
       <h2>Below are the plist files that were found for the selected application.</h2><br>'
-
-
-PLists=$(find /var/mobile/Applications/$AppID -name '*.plist' -type f)
 
 if [ -n "$PLists" ]
 then
@@ -204,7 +217,7 @@ then
 			</div>'
 	fi
 else
-	echo "<font color="red"><b>No Log Files Found</b></font>"
+	echo "<font color="red"><b>No PList Files Found</b></font>"
 fi
 		echo '</div>
     </div>

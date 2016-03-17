@@ -1,5 +1,5 @@
 #!/bin/sh
-
+#set -x
 function checkInstall()
 {
   local path
@@ -32,11 +32,15 @@ function checkInstall()
         keychainDumper)
                 path=$(find / -name keychain_dumper -type f)
 		echo "$path"
-         	;;
-		classDumpZ)
-				path=$(find / -name class-dump-z -type f)
-		echo "$path"
-			;;
+              	  ;;
+        classDumpZ)
+                path=$(find / -name class-dump-z -type f)
+    echo "$path"
+                ;;
+        perl)
+                path=$(which perl)
+    echo "$path"
+    ;;
         *) break
   esac
 
@@ -44,6 +48,15 @@ function checkInstall()
 
 
 #File that stores paths of tools
+echo "otool:/usr/bin/otool
+sqlite3:/usr/bin/sqlite3
+file:/usr/bin/file
+plutil:/usr/bin/plutil
+theos:/private/var/theos
+dumpdecrypted:/Library/dumpdecrypted.dylib /masbog/dumpdecrypted/dumpdecrypted.dylib
+keychainDumper:/masbog/Keychain-Dumper/keychain_dumper /private/var/db/stash/_.C0mBXy/Applications/iNalyzer5.app/keychain_dumper /usr/bin/keychain_dumper
+classDumpZ:/usr/bin/class-dump-z
+perl:/usr/local/bin/perl" > /Applications/iRE.app/toolPaths.txt
 file="/Applications/iRE.app/toolPaths.txt"
 
 #check if "toolPaths.txt" file exists
@@ -115,6 +128,9 @@ else
 	classDumpPath=$(checkInstall classDumpZ)
 	strTools+="classDumpZ:$classDumpPath"
 
+  #PERL
+  perlPath=$(checkInstall perl)
+  strTools+="perl:$perlPath"
 	echo -e $strTools > /Applications/iRE.app/toolPaths.txt
 fi
 
@@ -184,13 +200,21 @@ then
                                 fi
                                 ;;
                         classDumpZ)
-                        		if [ "$f2" != "" ]
-                        		then
-                        				classDumpZInstalled="<font color="green">Installed</font>"
-                        		else
-                        				classDumpZInstalled="<font color="red">Not Installed</font>"
-                        		fi
-                        		;;
+                                		if [ "$f2" != "" ]
+                                		then
+                                				classDumpZInstalled="<font color="green">Installed</font>"
+                                		else
+                                				classDumpZInstalled="<font color="red">Not Installed</font>"
+                                		fi
+                                		;;
+                        perl)
+                                		if [ "$f2" != "" ]
+                                		then
+                                				perlInstalled="<font color="green">Installed</font>"
+                                		else
+                                				perlInstalled="<font color="red">Not Installed</font>"
+                                		fi
+                                		;;
                         *) break
                     esac
 
@@ -200,13 +224,27 @@ else
         echo "/Applications/iRE.app/toolPaths.txt File Does Not Exist"
 fi
 
+iOSVersionLoc=$(grep -n 'ProductVersion' /System/Library/CoreServices/SystemVersion.plist | sed 's/:.*//')
+((iOSVersionLoc+=1))
+iOSVersion=$(cat /System/Library/CoreServices/SystemVersion.plist | sed -n "${iOSVersionLoc}p" | sed 's/^.*<string>//' | sed 's/<\/string>.*//')
+iOSShortVersion=$(echo "$iOSVersion" | cut -c 1)
+runningon=$(uname -a)
 
-guids=$(ls /var/mobile/Applications/*/*.app/Info.plist |sort | cut -d"/" -f5)
+if [[ $iOSShortVersion > 7 ]] ;then
+  guids=$(ls /private/var/mobile/Containers/Bundle/Application/*/*.app/Info.plist |sort | cut -d"/" -f8)
+else
+  guids=$(ls /var/mobile/Applications/*/*.app/Info.plist |sort | cut -d"/" -f5)
+fi
+
 dropDownList="<option value=>Select Application</option>"
 
 for a in ${guids}
  do
-    name=$( ls /var/mobile/Applications/$a/*.app/Info.plist | cut -d"/" -f6 | cut -d. -f1 )
+    if [[ $iOSShortVersion > 7 ]] ;then
+      name=$( ls /private/var/mobile/Containers/Bundle/Application/$a/*.app/Info.plist | cut -d"/" -f9 | cut -d. -f1 )
+    else
+      name=$( ls /var/mobile/Applications/$a/*.app/Info.plist | cut -d"/" -f6 | cut -d. -f1 )
+    fi
     dropDownList+="<option value="$a">"$name"</option>"
 done
 
@@ -229,7 +267,7 @@ echo '<html>
     <td align="center" valign="center">
     	<table style="background-color:white;border:1px solid black;" height="90%" width="90%">
     		<tr>
-    			<td align="center" valign="top" colspan="2" height="20%"><font face="arial black" color="black" size="6">Welcome to iRET<br>The  iOS Reverse Engineering Toolkit</font></td>
+    			<td align="center" valign="top" colspan="2" height="20%"><font face="arial black" color="black" size="6">Welcome to iRET<font face="arial black" color="red" size="2"> Source from <a href="https://github.com/masbog/iRET">https://github.com/masbog/iRET</a></font><br>The  iOS Reverse Engineering Toolkit</font><br><font face="arial black" color="red" size="2">Running On iOS '${iOSVersion}' : <br>'${runningon}'</font></td>
     		</tr>
     		<tr>
     			<td align="center" valign="top" width="50%">
@@ -245,10 +283,11 @@ echo '<html>
 												<span style="padding:150px">- dumpDecrypted ('${dumpInstalled}')</span><br>
 												<span style="padding:150px">- Sqlite ('${sqliteInstalled}')</span><br>
 												<span style="padding:150px">- Theos ('${theosInstalled}')</span><br>
-                                                <span style="padding:150px">- Keychain_dumper ('${keychainInstalled}')</span><br>
-											    <span style="padding:150px">- file ('${fileInstalled}')</span><br>
-                                                <span style="padding:150px">- plutil ('${plutilInstalled}')</span><br>
-                                                <span style="padding:150px">- class-dump-z ('${classDumpZInstalled}')</span>
+                      <span style="padding:150px">- Keychain_dumper ('${keychainInstalled}')</span><br>
+											  <span style="padding:150px">- file ('${fileInstalled}')</span><br>
+                      <span style="padding:150px">- plutil ('${plutilInstalled}')</span><br>
+                      <span style="padding:150px">- class-dump-z ('${classDumpZInstalled}')<br></span>
+                      <span style="padding:150px">- perl ('${perlInstalled}')</span>
 												<br><br>
 												<span style="padding:100px">Note: All tools listed above must be installed.</span></font>
 										</td>
